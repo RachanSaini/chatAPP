@@ -10,23 +10,64 @@ const $messages = document.querySelector('#messages')
 //Templates
 const messageTemplate = document.querySelector('#message-template').innerHTML
 const locationTemplate = document.querySelector('#location-template').innerHTML
+const sidebarTemplate = document.querySelector('#sidebar-template').innerHTML
+
+//Options
+const { username , department} = Qs.parse(location.search, { ignoreQueryPrefix : true })
+
+const autoscroll = () => {
+    // new message element
+    const $newMessage = $messages.lastElementChild
+
+    //height of new message
+    const newMessageStyles = getComputedStyle($newMessage)
+    const newMessageMargin = parseInt(newMessageStyles.marginBottom)
+    const newMessageHeight = $newMessage.offsetHeight + newMessageMargin
+
+    //visible height
+    const visibleHeight = $messages.offsetHeight
+
+    //height of messages container
+    const containerHeight = $messages.scrollHeight
+
+    //how farscrolled
+    const scrollOffset = $messages.scrollTop + visibleHeight
+
+    if(containerHeight - newMessageHeight <= scrollOffset) {
+        $messages.scrollTop = $messages.scrollHeight
+    }
+
+    console.log(newMessageMargin)
+}
 
 socket.on('message', (message) => {
     console.log(message)
     const html = Mustache.render(messageTemplate,{
+        username: message.username,
         message: message.text,
-        createdAt: moment(message.createdAt).format('h:mm a DD/MM/YYYY')
+        createdAt: moment(message.createdAt).format('h:mm a')
     })
     $messages.insertAdjacentHTML('beforeend', html)
+    autoscroll()
 })
 
 socket.on('locationMessage', (message) => {
     console.log(message)
     const html = Mustache.render(locationTemplate,{
+        username: message.username,
         url: message.url,
-        createdAt: moment(message.createdAt).format('h:mm a DD/MM/YYYY')
+        createdAt: moment(message.createdAt).format('h:mm a')
     })
     $messages.insertAdjacentHTML('beforeend', html)
+    autoscroll()
+})
+
+socket.on('departmentData',({department, users}) => {
+    const html = Mustache.render(sidebarTemplate,{
+        department,
+        users
+    })
+    document.querySelector('#sidebar').innerHTML = html
 })
 
 $messageForm.addEventListener('submit', (e) => {
@@ -63,4 +104,11 @@ $sendLocationButton.addEventListener('click', () => {
             console.log(message)
         })
     })
+})
+
+socket.emit('join', { username, department }, (error) => {
+    if(error){
+        alert(error)
+        location.href = '/'
+    }
 })

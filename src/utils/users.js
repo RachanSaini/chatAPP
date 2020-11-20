@@ -1,4 +1,6 @@
-const users = []
+const users = [], connections = []
+var onlineClients = {}
+
 
 const addUser = ({ id, username , department }) => {
     //Clean qs data

@@ -13,7 +13,7 @@ const locationTemplate = document.querySelector('#location-template').innerHTML
 const sidebarTemplate = document.querySelector('#sidebar-template').innerHTML
 
 //Options
-const { username , department} = Qs.parse(location.search, { ignoreQueryPrefix : true })
+const { username , department } = Qs.parse(location.search, { ignoreQueryPrefix : true })
 
 const autoscroll = () => {
     // new message element
@@ -70,6 +70,16 @@ socket.on('departmentData',({department, users}) => {
     document.querySelector('#sidebar').innerHTML = html
 })
 
+
+
+
+
+
+// $onlineUsers.contents().click(() => {
+//     console.log("Hi")
+// })
+
+
 $messageForm.addEventListener('submit', (e) => {
     e.preventDefault()
 
@@ -111,4 +121,17 @@ socket.emit('join', { username, department }, (error) => {
         alert(error)
         location.href = '/'
     }
+})
+
+//Personal chat
+function a(){
+    console.log('inside a')
+    socket.emit('privatechatroom', {
+        recipent: document.getElementById('recipent_name')
+    })
+} 
+
+socket.emit('sendPrivateMessage', { 
+    username, 
+    message: document.getElementById('message')
 })

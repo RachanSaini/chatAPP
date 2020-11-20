@@ -23,14 +23,26 @@ io.on('connection', (socket) => {
         if(error){
             return callback(error)
         }
-
-        socket.join(user.department)
-        socket.emit('message', generateMessage('Admin','Welcome!'))
-        socket.broadcast.to(user.department).emit('message', generateMessage('Admin',`${user.username} has joined!`))
-        io.to(user.department).emit('departmentData',{
+        
+        //Code changes
+        if(user.department != null){
+            socket.join(user.department)
+            socket.emit('message', generateMessage('Admin','Welcome!'))
+            socket.broadcast.to(user.department).emit('message', generateMessage('Admin',`${user.username} has joined!`))
+            io.to(user.department).emit('departmentData',{
             department: user.department,
             users: getUsersByRoom(user.department)
-        })
+            })
+        }
+
+
+        // socket.join(user.department)
+        // socket.emit('message', generateMessage('Admin','Welcome!'))
+        // socket.broadcast.to(user.department).emit('message', generateMessage('Admin',`${user.username} has joined!`))
+        // io.to(user.department).emit('departmentData',{
+        //     department: user.department,
+        //     users: getUsersByRoom(user.department)
+        // })
 
         callback()
     })
@@ -50,6 +62,19 @@ io.on('connection', (socket) => {
         const user = getUser(socket.id)
         io.to(user.department).emit('locationMessage', generateLocationMessage( user.username ,`https://google.com/maps?q=${location.lattitude},${location.longitude}`))
         callback('Location sent!')
+    })
+    
+//Personal chat
+    socket.on('privatechatroom',(data) =>{
+        socket.join(data.recipent)
+        io.emit('res',{
+            mes:"you are added"
+        })
+    })
+
+    socket.on('sendPrivateMessage', (data) => {
+        io.sockets.in(data.username).emit('new_msg', { msg: data.message })
+        console.log(data.username)
     })
 
     socket.on('disconnect', () => {

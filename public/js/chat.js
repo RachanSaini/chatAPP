@@ -12,6 +12,19 @@ const messageTemplate = document.querySelector('#message-template').innerHTML
 const locationTemplate = document.querySelector('#location-template').innerHTML
 const sidebarTemplate = document.querySelector('#sidebar-template').innerHTML
 
+// // Elements from Registration form
+// const $registrationForm = document.querySelector('#registration-form')
+// const $registrationFormButton = $registrationForm.querySelector('button')
+// const name = document.querySelector('#nameR')
+// const email = document.querySelector('#emailR')
+// const password = document.querySelector('#passwordR')
+
+// //User Registration
+// $registrationFormButton.addEventListener('click', (name,email,password) => {  
+//     saveUser(name,email,password)
+//     console.log('User registered!')
+// })
+
 //Options
 const { username , department} = Qs.parse(location.search, { ignoreQueryPrefix : true })
 

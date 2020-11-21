@@ -5,7 +5,8 @@ const socketio = require('socket.io')
 const { generateMessage,generateLocationMessage } =require('./utils/messages')
 const { addUser, removeUser, getUser, getUsersByRoom } = require('./utils/users')
 
-const app = express()
+const app = require('./app')
+
 const server = http.createServer(app)
 const io = socketio(server)
 const Filter = require('bad-words')
@@ -16,7 +17,7 @@ app.use(express.static(publicDirectoryPath))
 
 io.on('connection', (socket) => {
     console.log('New Websocket connection.')
-    
+
     socket.on('join', (options, callback) => {
         const {error,user} = addUser({id: socket.id , ...options})
 
@@ -68,3 +69,5 @@ io.on('connection', (socket) => {
 server.listen(port, () => {
     console.log(`Server is up on port ${port}`)
 })
+
+

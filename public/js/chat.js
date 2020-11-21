@@ -125,3 +125,4 @@ socket.emit('join', { username, department }, (error) => {
         location.href = '/'
     }
 })
+

@@ -57,6 +57,16 @@ button:disabled {
 }
 
 /* Join Page Styles */
+.logoutLblPos{
+
+    position:fixed;
+    right:10px;
+    top:5px;
+ }
+ .top-bar {
+    background: #333744;
+
+ }
 
 .centered-form {
     background: #333744;

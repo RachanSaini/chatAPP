@@ -6,5 +6,4 @@ app.use(express.json())
 app.use('/users', router);
 app.use('/resources',express.static(__dirname + '/src/routers/routeUser.js'));
 
-
 module.exports = app

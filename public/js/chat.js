@@ -6,24 +6,16 @@ const $messageFormInput = $messageForm.querySelector('input')
 const $messageFormButton = $messageForm.querySelector('button')
 const $sendLocationButton = document.querySelector('#location')
 const $messages = document.querySelector('#messages')
+// const $sendFileForm = document.querySelector('#file-form')
+// const $sendFileInput = $sendFileForm.querySelector('input')
+// const $sendFileButton = $sendFileForm.querySelector('button')
+
 
 //Templates
 const messageTemplate = document.querySelector('#message-template').innerHTML
 const locationTemplate = document.querySelector('#location-template').innerHTML
 const sidebarTemplate = document.querySelector('#sidebar-template').innerHTML
-
-// // Elements from Registration form
-// const $registrationForm = document.querySelector('#registration-form')
-// const $registrationFormButton = $registrationForm.querySelector('button')
-// const name = document.querySelector('#nameR')
-// const email = document.querySelector('#emailR')
-// const password = document.querySelector('#passwordR')
-
-// //User Registration
-// $registrationFormButton.addEventListener('click', (name,email,password) => {  
-//     saveUser(name,email,password)
-//     console.log('User registered!')
-// })
+// const fileTemplate = document.querySelector('#file-template').innerHTML
 
 //Options
 const { username , department} = Qs.parse(location.search, { ignoreQueryPrefix : true })
@@ -75,6 +67,17 @@ socket.on('locationMessage', (message) => {
     autoscroll()
 })
 
+// socket.on('fileMessage',(message) => {
+//     console.log(message)
+//     const html = Mustache.render(fileTemplate,{
+//         username: message.username,
+//         file: message.file,
+//         createdAt: moment(message.createdAt).format('h:mm a')
+//     })
+//     $messages.insertAdjacentHTML('beforeend', html)
+//     autoscroll()
+// })
+
 socket.on('departmentData',({department, users}) => {
     const html = Mustache.render(sidebarTemplate,{
         department,
@@ -118,6 +121,14 @@ $sendLocationButton.addEventListener('click', () => {
         })
     })
 })
+
+//Send File
+
+// $sendFileButton.addEventListener('click', (e) => {
+//     e.preventDefault()
+//     console.log($sendFileInput.value)
+//     socket.emit('sendFile', $sendFileInput.value) 
+// })
 
 socket.emit('join', { username, department }, (error) => {
     if(error){

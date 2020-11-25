@@ -1,9 +1,12 @@
 const express = require('express')
-let router = require('./routers/routeUser')
+const userRouter = require('./routers/routeUser')
+const MessageRouter = require('./routers/routeMessage')
+
 require('./db/mongoose')
 const app = express()
 app.use(express.json())
-app.use('/users', router);
-app.use('/resources',express.static(__dirname + '/src/routers/routeUser.js'));
+app.use('/users', userRouter)
+app.use('/messages', MessageRouter)
+app.use('/resources',express.static(__dirname + '/src/routers/routeUser.js'))
 
 module.exports = app

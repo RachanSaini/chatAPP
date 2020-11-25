@@ -2,7 +2,7 @@ const path = require('path')
 const http = require('http')
 const express = require('express')
 const socketio = require('socket.io')
-const { generateMessage,generateLocationMessage } =require('./utils/messages')
+const { generateMessage,generateLocationMessage, generateFileMessage} =require('./utils/messages')
 const { addUser, removeUser, getUser, getUsersByRoom } = require('./utils/users')
 
 const app = require('./app')
@@ -10,13 +10,16 @@ const app = require('./app')
 const server = http.createServer(app)
 const io = socketio(server)
 const Filter = require('bad-words')
+// const fs = require('fs')
 
 const port = process.env.PORT || 3000
 const publicDirectoryPath = path.join(__dirname,'../public')
 app.use(express.static(publicDirectoryPath))
 
+
 io.on('connection', (socket) => {
     console.log('New Websocket connection.')
+
 
     socket.on('join', (options, callback) => {
         const {error,user} = addUser({id: socket.id , ...options})
@@ -42,7 +45,6 @@ io.on('connection', (socket) => {
         if(filter.isProfane(message)){
             return callback('Profanity is not allowed.')
         }
-
         io.to(user.department).emit('message', generateMessage( user.username,message))
         callback()
     })
@@ -53,6 +55,13 @@ io.on('connection', (socket) => {
         callback('Location sent!')
     })
 
+    // socket.on('sendFile', (file) => {
+    //     const user = getUser(socket.id)
+    //     console.log(file)
+    //     io.to(user.department).emit('fileMessage', generateFileMessage(user.username , file))
+    // })
+
+    
     socket.on('disconnect', () => {
         const user = removeUser(socket.id)
 

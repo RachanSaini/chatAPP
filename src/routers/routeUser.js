@@ -2,8 +2,6 @@ const express = require('express')
 const User = require('../models/userModel')
 const auth = require('../middleware/auth')
 const router = new express.Router()
-const parser = require('cookie-parser')
-
 
 //User Registration
 router.post('/add', async (req, res) => {

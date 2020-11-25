@@ -30,53 +30,51 @@
         crossorigin="anonymous">
        </script>
        <script type="text/javascript">
-         $('#btnLoginUser').on('click', loginUser);
-         function loginUser(event) {
-             event.preventDefault();
+        $('#btnLoginUser').on('click', loginUser);
+        function loginUser(event) {
+            event.preventDefault();
 
-             // Super basic validation - increase errorCount variable if any fields are blank
-             var errorCount = 0;
-             $('#loginForm input').each(function(index, val) {
-                 if($(this).val() === '') { errorCount++; }
-             });
+            // Super basic validation - increase errorCount variable if any fields are blank
+            var errorCount = 0;
+            $('#loginForm input').each(function(index, val) {
+                if($(this).val() === '') { errorCount++; }
+            });
 
-             // Check and make sure errorCount's still at zero
-             if(errorCount === 0) {
+            // Check and make sure errorCount's still at zero
+            if(errorCount === 0) {
 
-                 // If it is, compile all user info into one object
-                 var newUser = {
-                     'email': $('#loginForm input#email').val(),
-                     'password': $('#loginForm input#password').val()
-                 }   
-                 
-                
+                // If it is, compile all user info into one object
+                var newUser = {
+                    'email': $('#loginForm input#email').val(),
+                    'password': $('#loginForm input#password').val()
+                }
 
-                 // Use AJAX to post the object to our adduser service
-                 $.ajax({
-                     type: 'POST',
-                     data: JSON.stringify(newUser),
-                     url: '/users/login',
-                     dataType: 'JSON',
-                     contentType: "application/json; charset=utf-8",
-                     success: function (data) { 
-                         alert('Success');
-                         window.open('/join.html',"_self");
-                        },
-                     error: function (jqXHR, textStatus, errorThrown) {
-                       //console.log(jqXHR);
-                       alert(jqXHR.responseText)
-                     }
-                 })
-                 
+                // Use AJAX to post the object to our adduser service
+                $.ajax({
+                    type: 'POST',
+                    data: JSON.stringify(newUser),
+                    url: '/users/login',
+                    dataType: 'json',
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        alert('Success');
+                        window.open('/join.html',"_self");
+                       },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                      //console.log(jqXHR);
+                      alert(jqXHR.responseText)
+                    }
+                })
 
-             }
-             else {
-                 // If errorCount is more than 0, error out
-                 alert('Please fill in all fields');
-                 return false;
-             }
-         };
-  </script>
 
+            }
+            else {
+                // If errorCount is more than 0, error out
+                alert('Please fill in all fields');
+                return false;
+            }
+        };
+ </script>
+ 
     </body>
 </html>

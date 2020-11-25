@@ -1,20 +1,23 @@
+const { use } = require("../app")
+
 const users = []
 
-const addUser = ({ id, username , department }) => {
+const addUser = ({ id, username , email, department }) => {
     //Clean qs data
     username = username.trim().toLowerCase()
+    email = email.trim().toLowerCase()
     department = department.trim().toLowerCase()
 
     //Validate the data
     if(!username || !department){
         return {
-            error: 'Username and department are required!'
+            error: 'Username, email and department are required!'
         }
     }
 
     //Check for existing user
     const existingUser = users.find((user) => {
-        return user.department === department && user.username === username
+        return user.department === department && user.username === username && user.email === email
     })
 
     //Validate username
@@ -25,7 +28,7 @@ const addUser = ({ id, username , department }) => {
     }
 
     //Store user
-    const user = { id, username , department}
+    const user = { id, username , email, department}
     users.push(user)
     return { user }
 }

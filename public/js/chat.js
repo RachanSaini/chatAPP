@@ -18,7 +18,7 @@ const sidebarTemplate = document.querySelector('#sidebar-template').innerHTML
 // const fileTemplate = document.querySelector('#file-template').innerHTML
 
 //Options
-const { username , department} = Qs.parse(location.search, { ignoreQueryPrefix : true })
+const { username , email, department} = Qs.parse(location.search, { ignoreQueryPrefix : true })
 
 const autoscroll = () => {
     // new message element
@@ -130,7 +130,7 @@ $sendLocationButton.addEventListener('click', () => {
 //     socket.emit('sendFile', $sendFileInput.value) 
 // })
 
-socket.emit('join', { username, department }, (error) => {
+socket.emit('join', { username, email, department }, (error) => {
     if(error){
         alert(error)
         location.href = '/'

@@ -3,14 +3,12 @@ const Message = require('../models/messageModel')
 const auth = require('../middleware/auth')
 const router = new express.Router()
 
-router.post('/messages', async (req, res) => {
+router.post('/add', async (req, res) => {
     const message = new Message({
-        ...req.body,
-        owner: req.user._id
-    })
+        ...req.body    })
 
     try {
-        await task.save()
+        await message.save()
         res.status(201).send(message)
     } catch (e) {
         res.status(400).send(e)

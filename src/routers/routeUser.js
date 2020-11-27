@@ -7,16 +7,6 @@ const router = new express.Router()
 //User Registration
 router.post('/add', async (req, res) => {
     const user = new User(req.body)
-    // user.save()
-    // .then(item =>{
-    //   user.generateAuthToken()
-    //   .then(token => {
-    //     res.send({ 'user' : item, token });
-    //   })
-    // })
-    // .catch(err =>{
-    //   res.status(400).send(err);
-    // });
     try {
       await user.save()
       const token = await user.generateAuthToken()
@@ -43,16 +33,29 @@ router.post('/login', async (req, res) => {
 
 router.post('/logout', auth , async (req, res) => {
   try {
-      //let token = req.cookies.token;
-      // req.user.tokens = req.user.tokens.filter((token) => {
-      //     return token.token !== token
-      // })
-      // await req.user.save()
       res.clearCookie('token');
       res.send({})
   } catch (e) {
       res.status(500).send()
   }
 })
+
+// router.patch('/users/me', auth, async (req, res) => {
+//   const updates = Object.keys(req.body)
+//   const allowedUpdates = ['name', 'email', 'password']
+//   const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
+
+//   if (!isValidOperation) {
+//       return res.status(400).send({ error: 'Invalid updates!' })
+//   }
+
+//   try {
+//       updates.forEach((update) => req.user[update] = req.body[update])
+//       await req.user.save()
+//       res.send(req.user)
+//   } catch (e) {
+//       res.status(400).send(e)
+//   }
+// })
 
 module.exports = router

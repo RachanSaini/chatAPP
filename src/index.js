@@ -2,7 +2,7 @@ const path = require('path')
 const http = require('http')
 const express = require('express')
 const socketio = require('socket.io')
-const { generateMessage,generateLocationMessage, generateFileMessage} =require('./utils/messages')
+const { generateMessage,generateLocationMessage } =require('./utils/messages')
 const { addUser, removeUser, getUser, getUsersByRoom } = require('./utils/users')
 
 const app = require('./app')
@@ -63,13 +63,6 @@ io.on('connection', (socket) => {
         io.to(user.department).emit('locationMessage', generateLocationMessage( user.username ,`https://google.com/maps?q=${location.lattitude},${location.longitude}`))
         callback('Location sent!')
     })
-
-    // socket.on('sendFile', (file) => {
-    //     const user = getUser(socket.id)
-    //     console.log(file)
-    //     io.to(user.department).emit('fileMessage', generateFileMessage(user.username , file))
-    // })
-
     
     socket.on('disconnect', () => {
         const user = removeUser(socket.id)

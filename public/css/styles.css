@@ -63,6 +63,11 @@ button:disabled {
     right:10px;
     top:5px;
  }
+ .ModifyLblPos {
+    position: fixed;
+    left: 10px;
+    top: 5px;
+ }
  .top-bar {
     background: #333744;
 

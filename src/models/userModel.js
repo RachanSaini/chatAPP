@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken')
 const db=mongoose.connection
 db.on('error', console.log.bind(console, "connection error"));
 db.once('open', function(callback){
-    console.log("connection succeeded");
+    console.log("user db connection succeeded");
 })
 
 const userSchema = new mongoose.Schema({

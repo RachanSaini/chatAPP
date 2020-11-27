@@ -6,16 +6,11 @@ const $messageFormInput = $messageForm.querySelector('input')
 const $messageFormButton = $messageForm.querySelector('button')
 const $sendLocationButton = document.querySelector('#location')
 const $messages = document.querySelector('#messages')
-// const $sendFileForm = document.querySelector('#file-form')
-// const $sendFileInput = $sendFileForm.querySelector('input')
-// const $sendFileButton = $sendFileForm.querySelector('button')
-
 
 //Templates
 const messageTemplate = document.querySelector('#message-template').innerHTML
 const locationTemplate = document.querySelector('#location-template').innerHTML
 const sidebarTemplate = document.querySelector('#sidebar-template').innerHTML
-// const fileTemplate = document.querySelector('#file-template').innerHTML
 
 //Options
 const { username , email, department} = Qs.parse(location.search, { ignoreQueryPrefix : true })
@@ -54,7 +49,7 @@ socket.on('message', (message) => {
     })
     $messages.insertAdjacentHTML('beforeend', html)
     autoscroll()
-})
+})  
 
 socket.on('locationMessage', (message) => {
     console.log(message)
@@ -66,17 +61,6 @@ socket.on('locationMessage', (message) => {
     $messages.insertAdjacentHTML('beforeend', html)
     autoscroll()
 })
-
-// socket.on('fileMessage',(message) => {
-//     console.log(message)
-//     const html = Mustache.render(fileTemplate,{
-//         username: message.username,
-//         file: message.file,
-//         createdAt: moment(message.createdAt).format('h:mm a')
-//     })
-//     $messages.insertAdjacentHTML('beforeend', html)
-//     autoscroll()
-// })
 
 socket.on('departmentData',({department, users}) => {
     const html = Mustache.render(sidebarTemplate,{
@@ -121,14 +105,6 @@ $sendLocationButton.addEventListener('click', () => {
         })
     })
 })
-
-//Send File
-
-// $sendFileButton.addEventListener('click', (e) => {
-//     e.preventDefault()
-//     console.log($sendFileInput.value)
-//     socket.emit('sendFile', $sendFileInput.value) 
-// })
 
 socket.emit('join', { username, email, department }, (error) => {
     if(error){

@@ -13,6 +13,13 @@
               </label>
             </form>
         </div>
+        <div class="top-bar" style="float: left">
+            <form name="modifyProfileForm" action="/modify.html">
+                <label class="ModifyLblPos">
+                <button name="ModifyBtn" type="submit" id="btnModify">Modify</button>
+            </form>
+        </div>
+        
        <div class="centered-form">
             <div class="centered-form__box">
                 <h1>Join</h1>
@@ -57,7 +64,6 @@
                 window.open('/',"_self");
                },
             error: function (jqXHR, textStatus, errorThrown) {
-              //console.log(jqXHR);
               alert(jqXHR.responseText)
             }
         })
